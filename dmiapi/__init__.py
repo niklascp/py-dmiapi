@@ -38,7 +38,9 @@ class DmiApi(object):
                                        params = params,
                                        headers = headers,
                                        timeout = API_TIMEOUT) as response:
-                    _LOGGER.debug("Request '%s' finished with status code %s", response.url, response.status)
-                    print(await response.text('utf8'))
+                    _LOGGER.info("Request '%s' finished with status code %s", response.url, response.status)
+                    data = await response.json(encoding = 'utf-8')
+
+                    return data
         except:
             _LOGGER.exception("While fetching forecast")
