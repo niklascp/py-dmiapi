@@ -1,11 +1,12 @@
-import asyncio
-from dmiapi import DmiApi 
+import pandas as pd
+import dmiapi
 
-async def run():
-	forecast = await DmiApi.forecast(2619856)
-	for t in forecast['timeserie']:
-		print(t['time'], t['temp'])
+client = dmiapi.DmiApiClient()
 
-loop = asyncio.get_event_loop()  
-loop.run_until_complete(run())  
-loop.close()  
+obs_response = client.observations(2619856)
+obs = pd.DataFrame(obs_response['observations']).set_index('time')
+obs.to_csv('observations_{}.csv'.format(obs.index.max().strftime('%Y%m%d%H%M')))
+
+forecast_response = client.forecast(2619856)
+forecasts = pd.DataFrame(forecast_response['forecasts']).set_index('time')
+forecasts.to_csv('forecasts_{}.csv'.format(forecasts.index.min().strftime('%Y%m%d%H%M')))
