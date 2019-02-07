@@ -25,11 +25,12 @@ print('Mean temperature (2 meters above ground):', obs['temperature2m'].mean())
 
 ### Asynchronous example
 ```python
+import pandas as pd
 import dmiapi
 
 async def fetch():
     client = dmiapi.DmiApiClient()
     forecasts_response = await client.async_forecasts(station_id = 2619856)
     forecasts = pd.DataFrame(forecasts_response['forecasts'])
-    print('Forcasted max. temperature:', obs['temp'].max())
+    print('Forcasted max. temperature:', forecasts['temp'].max())
 ```
