@@ -22,7 +22,7 @@ class DmiApiClient(object):
         """
         self.logger = logging.getLogger(__name__)
         self.headers = {
-            USER_AGENT: '{}/{}'.format('py-dmiapi', '0.1.0'),
+            USER_AGENT: '{}/{}'.format('py-dmiapi', '0.1.1'),
         }
 
 
@@ -107,4 +107,4 @@ class DmiApiClient(object):
 
     def forecasts(self, station_id):
         """Fetch the latest forecasts for a given location"""
-        return asyncio.get_event_loop().run_until_complete(self.async_forecast(station_id))
+        return asyncio.get_event_loop().run_until_complete(self.async_forecasts(station_id))
