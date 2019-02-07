@@ -22,7 +22,7 @@ class DmiApiClient(object):
         """
         self.logger = logging.getLogger(__name__)
         self.headers = {
-            USER_AGENT: '{}/{}'.format('pydmiapi', '1.0'),
+            USER_AGENT: '{}/{}'.format('py-dmiapi', '0.1.0'),
         }
 
 
@@ -70,8 +70,8 @@ class DmiApiClient(object):
             self.logger.exception("While fetching observations")
 
 
-    async def async_forecast(self, station_id):
-        """Fetch the latest forecast for a given location"""
+    async def async_forecasts(self, station_id):
+        """Fetch the latest forecasts for a given location"""
         try:
             params = {
                 API_PARAM_COMMAND: API_COMMAND_FORECAST,
@@ -101,8 +101,10 @@ class DmiApiClient(object):
 
 
     def observations(self, station_id):
+        """Fetch the latest observations for a given weather station or location."""
         return asyncio.get_event_loop().run_until_complete(self.async_observations(station_id))
 
 
-    def forecast(self, station_id):
+    def forecasts(self, station_id):
+        """Fetch the latest forecasts for a given location"""
         return asyncio.get_event_loop().run_until_complete(self.async_forecast(station_id))
