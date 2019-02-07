@@ -58,10 +58,10 @@ class DmiApiClient(object):
                     observations = []
                     for t in sorted(times):
                         observation = { 
-                            'Time': datetime.strptime(t, TIME_FORMAT)
+                            'time': datetime.strptime(t, TIME_FORMAT)
                         }
                         for m in measurements:
-                            observation[m] = data[m][t] if t in data[m] else None
+                            observation[m[0].lower() + m[1:]] = data[m][t] if t in data[m] else None
                         observations.append(observation)
                     
                     result_data['observations'] = observations
@@ -85,6 +85,15 @@ class DmiApiClient(object):
                                        timeout = API_TIMEOUT) as response:
                     self.logger.debug("Request '%s' finished with status code %s", response.url, response.status)
                     data = await response.json(encoding = 'utf-8')
+
+                    # Rename danish variable, since all others are english
+                    forecasts = data.pop('timeserie')
+
+                    # Parse dates
+                    for f in forecasts:
+                        f['time'] = datetime.strptime(f['time'], TIME_FORMAT)
+
+                    data['forecasts'] = forecasts
 
                     return data
         except:
