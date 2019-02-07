@@ -28,7 +28,7 @@ print('Mean temperature (2 meters above ground):', obs['temperature2m'].mean())
 import pandas as pd
 import dmiapi
 
-async def fetch():
+async def max_forecast_temp():
     client = dmiapi.DmiApiClient()
     forecasts_response = await client.async_forecasts(station_id = 2619856)
     forecasts = pd.DataFrame(forecasts_response['forecasts'])
