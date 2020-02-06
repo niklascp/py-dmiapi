@@ -30,7 +30,7 @@ import dmiapi
 
 async def max_forecast_temp():
     client = dmiapi.DmiApiClient()
-    forecasts_response = await client.async_forecasts(station_id = 2619856)
+    forecasts_response = await client.async_forecasts(location_id = 2619856)
     forecasts = pd.DataFrame(forecasts_response['forecasts'])
     print('Forcasted max. temperature:', forecasts['temp'].max())
 ```

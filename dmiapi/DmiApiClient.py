@@ -67,15 +67,15 @@ class DmiApiClient(object):
                     result_data['observations'] = observations
                     return result_data
         except:
-            self.logger.exception("While fetching observations")
+            self.logger.exception("Error fetching observations:")
 
 
-    async def async_forecasts(self, station_id):
+    async def async_forecasts(self, location_id):
         """Fetch the latest forecasts for a given location"""
         try:
             params = {
                 API_PARAM_COMMAND: API_COMMAND_FORECAST,
-                API_PARAM_ID: int(station_id),
+                API_PARAM_ID: int(location_id),
             }            
             
             async with aiohttp.ClientSession() as session:
@@ -88,16 +88,19 @@ class DmiApiClient(object):
 
                     # Rename danish variable, since all others are english
                     forecasts = data.pop('timeserie')
+                    data['forecasts'] = []
 
                     # Parse dates
                     for f in forecasts:
-                        f['time'] = datetime.strptime(f['time'], TIME_FORMAT)
-
-                    data['forecasts'] = forecasts
+                        try:
+                            f['time'] = datetime.strptime(f['time'], TIME_FORMAT)
+                            data['forecasts'].append(f)
+                        except (KeyError, ValueError):
+                            self.logger.debug("Failed to process forecast: '%s'. Skipping this forecast.", f)
 
                     return data
         except:
-            self.logger.exception("While fetching forecast")
+            self.logger.exception("Error fetching forecasts:")
 
 
     def observations(self, station_id):

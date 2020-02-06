@@ -10,7 +10,7 @@ with open('requirements.txt') as file:
 setup(
   name = 'dmiapi',
   packages = ['dmiapi'],
-  version = '0.1.1',
+  version = '0.1.2',
   license = 'MIT',
   description = 'Wrapper for access weather observations and forecasts from the Danish Metrology Institute (DMI) API',
   long_description = long_description,
@@ -24,11 +24,6 @@ setup(
   classifiers = [
     'Development Status :: 4 - Beta',
     'Intended Audience :: Developers',
-    'Topic :: Software Development :: Build Tools',
-    'License :: OSI Approved :: MIT License',
-    'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.4',
-    'Programming Language :: Python :: 3.5',
-    'Programming Language :: Python :: 3.6',
+    'License :: OSI Approved :: MIT License'
   ],
 )
